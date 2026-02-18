@@ -2,13 +2,24 @@
 function signup() {
     let name = document.getElementById("su_user")?.value;
     let pass = document.getElementById("su_pass")?.value;
-    if(!name || !pass) return alert("Please fill all fields");
+    let confirmPass = document.getElementById("su_pass_confirm")?.value; // Get the confirm field
+
+    if(!name || !pass || !confirmPass) {
+        return alert("Please fill all fields");
+    }
+
+    if(pass !== confirmPass) {
+        return alert("Passwords do not match!");
+    }
 
     let users = JSON.parse(localStorage.getItem("local_users") || "[]");
-    if(users.find(u => u.username === name)) return alert("Username exists.");
+    if(users.find(u => u.username === name)) {
+        return alert("Username already exists.");
+    }
 
     users.push({ username: name, password: pass });
     localStorage.setItem("local_users", JSON.stringify(users));
+    
     alert("Account created successfully!");
     window.location.href = 'login.html';
 }
@@ -281,4 +292,5 @@ function copyLink() {
     document.execCommand('copy');
     document.body.removeChild(dummy);
     alert('Survey link copied to clipboard!');
+
 }
